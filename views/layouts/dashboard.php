@@ -1,0 +1,325 @@
+<?php
+
+/* @var $this \yii\web\View */
+/* @var $content string */
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use app\assets\AppAsset;
+use app\helpers\ImageHelper;
+
+//AppAsset::register($this);
+
+$baseUrl = Url::base() . '/adminlte';
+
+$c = Yii::$app->controller->id;
+$a = Yii::$app->controller->action->id;
+?>
+
+<?php $this->beginPage() ?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System (PMRO)</title>
+    <?php $this->head() ?>
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <?php $this->beginBody() ?>
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-teal navbar-light text-white">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a style="color: #FFFFFF" class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a style="color: #FFFFFF" href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a style="color: #FFFFFF" href="<?= Url::to(['site/contact']) ?>" class="nav-link">Contact</a>
+                </li>
+            </ul>
+
+            <!-- SEARCH FORM -->
+            <form class="form-inline ml-3">
+                <div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Right navbar links -->
+            <!-- <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-comments"></i>
+                        <span class="badge badge-danger navbar-badge">3</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="#" class="dropdown-item">
+                            <div class="media">
+                                <img src="<?= $baseUrl ?>/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        Admin
+                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                    </h3>
+                                    <p class="text-sm">Welcome to Digital TVET Academy</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge">2</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">1 Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> 1 new messages
+                            <span class="float-right text-muted text-sm">3 mins</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-users mr-2"></i> 0 friend requests
+                            <span class="float-right text-muted text-sm">12 hours</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> 1 new reports
+                            <span class="float-right text-muted text-sm">2 days</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    </div>
+                </li>
+            </ul> -->
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="/" class="brand-link">
+                <img src="<?= $baseUrl ?>/dist/img/kkm_50.png" alt="PMRO Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PMRO</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="<?= ImageHelper::viewImage(Yii::$app->user->identity->user_foto) ?>" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="<?= Url::to(['users/view', 'id' => Yii::$app->user->identity->user_id]) ?>" class="d-block"><?= Yii::$app->user->identity->user_nama ?></a>
+                        <a href="<?= Url::to(['dashboard/update-profile']) ?>" class="btn btn-primary btn-sm" style="margin-top: 5px; font-size: 10px">Edit Profile</a>
+                    </div>
+
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+
+                        <li class="nav-header">MAIN MENU</li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['dashboard/index']) ?>" class="nav-link <?= ($c == "dashboard") ? "active" : "" ?>">
+                                <i class="nav-icon far fa-hdd"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <?php if (Yii::$app->user->identity->user_tipe == "ADMIN" || Yii::$app->user->identity->user_tipe == 'TRAINER') : ?>
+                            <!-- <li class="nav-item">
+                                <a href="<?= Url::to(['courses/index']) ?>" class="nav-link <?= ($c == "courses") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-address-card"></i>
+                                    <p>Courses</p>
+                                </a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['users/index']) ?>" class="nav-link <?= ($c == "users") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-user"></i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if (Yii::$app->user->identity->user_tipe == "ADMIN") : ?>
+
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['banner/index']) ?>" class="nav-link <?= ($c == "banner") ? "active" : "" ?>">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>Banners</p>
+                                </a>
+                            </li>
+
+                            <!-- <li class="nav-item">
+                                <a href="<?= Url::to(['coursesession/index']) ?>" class="nav-link <?= ($c == "coursesession") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-hourglass"></i>
+                                    <p>Courses Sessions</p>
+                                </a>
+                            </li -->
+
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['log/index']) ?>" class="nav-link <?= ($c == "Log") ? "active" : "" ?>">
+                                    <i class="nav-icon fa fa-chart-line"></i>
+                                    <p>Data Logs</p>
+                                </a>
+                            </li> 
+
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['node/index']) ?>" class="nav-link <?= ($c == "node") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-hdd"></i>
+                                    <p>Node</p>
+                                </a>
+                            </li> 
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['notif/index']) ?>" class="nav-link <?= ($c == "notif") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-bell"></i>
+                                    <p>Notifications</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= Url::to(['subscriber/index']) ?>" class="nav-link <?= ($c == "subscriber") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-star"></i>
+                                    <p>Subscribers</p>
+                                </a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a href="<?= Url::to(['video/index']) ?>" class="nav-link <?= ($c == "video") ? "active" : "" ?>">
+                                    <i class="nav-icon far fa-play-circle"></i>
+                                    <p>Videos</p>
+                                </a>
+                            </li> -->
+
+                        <?php endif; ?>
+
+                        <li class="nav-item">
+                            <a href="#" id="logout-button" class="nav-link">
+                                <i class="nav-icon far fa-times-circle"></i>
+                                <p>Logout</p>
+                            </a>
+                            <form method="post" name="logout-form" action="<?= Url::to(['site/logout']) ?>">
+                                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1><?= Html::encode($this->title) ?></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active"><?= Html::encode($this->title) ?></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content" style="padding: 20px">
+
+                <?= $content ?>
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.0.5
+            </div>
+            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="<?= $baseUrl ?>/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="<?= $baseUrl ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?= $baseUrl ?>/dist/js/adminlte.min.js"></script>
+
+    <script>
+        function createElementFromHTML(htmlString) {
+            var div = document.createElement('div');
+            div.innerHTML = htmlString.trim();
+
+            // Change this to div.childNodes to support multiple top-level nodes
+            return div.firstChild;
+        }
+
+        $(document).ready(function() {
+            $('#logout-button').click(function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure?')) {
+                    document.forms['logout-form'].submit();
+                }
+            });
+
+            $('body').on('click', '.delete-button', function(e) {
+                e.preventDefault();
+
+                if (confirm('Are you sure?')) {
+                    $(this).closest('.delete-form').find('form').submit();
+                }
+            });
+        });
+    </script>
+
+    <?php $this->endBody() ?>
+</body>
+
+</html>
+<?php $this->endPage() ?>
