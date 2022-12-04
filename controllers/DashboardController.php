@@ -2,20 +2,25 @@
 
 namespace app\controllers;
 
-use app\models\Enroll;
-use app\models\EnrollProgress;
 use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
+use DateTime;
+use app\models\Node;
+use app\models\Users;
 use yii\web\Response;
+use app\models\Enroll;
+use yii\web\Controller;
+use yii\web\UploadedFile;
+use yii\web\HttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\EnrollProgress;
+use yii\filters\AccessControl;
 use app\models\forms\LoginForm;
+use app\helpers\DashboardHelper;
+use app\models\DataSensors;
 use app\models\forms\ContactForm;
 use app\models\forms\RegisterForm;
-use app\models\Users;
-use yii\web\HttpException;
-use yii\web\UploadedFile;
-use yii\widgets\ActiveForm;
 
 class DashboardController extends Controller
 {
@@ -67,24 +72,88 @@ class DashboardController extends Controller
     public function actionIndex()
     {
         $progress = [];
-        $enrolls = Enroll::find()
-            ->where(['enroll_userid' => Yii::$app->user->identity->user_id])
-            ->Andwhere(['enroll_is_deleted' => 0])
-            ->all();
-        $student_enroll = Enroll::find()
-            ->where(['enroll_is_deleted' => 0])
-            ->Andwhere(['courses.course_trainer' => Yii::$app->user->identity->user_id])
-            ->leftJoin('courses', 'courses.course_id = enroll.enroll_id')
-            ->all();
-        foreach ($enrolls as $key => $value) {
-            $progress[] = EnrollProgress::findAll(['ep_enroll_id' => $value->enroll_id, 'ep_remark' => "quiz"]);
+
+        $nodeId = Node::findOne(['node_id'=>1]);
+        $nodes = ArrayHelper::map(Node::find()->all(), 'node_name', 'node_name');
+
+        $start = Yii::$app->request->post('start') ? (new DateTime(Yii::$app->request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d') . ' - 1 month'));
+        $end = Yii::$app->request->post('end') ? (new DateTime(Yii::$app->request->post('end')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
+        $maintenance1 = DataSensors::findOne(['remark'=>$nodeId["node_name"]]);
+
+        // var_dump($nodes);die;
+        return $this->render('index', [
+            'progress' => $progress,
+            'nodeId' => $nodeId,
+            'nodes' => $nodes,
+            'start' => $start,
+            'end' => $end,
+            'maintenance1' => $maintenance1["modified_at"],
+        ]);
+    }
+
+    public function actionDataPressure()
+    {
+
+        $request = Yii::$app->request;
+        $start = $request->post('start') ? (new DateTime($request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d') . ' - 1 month'));
+        $end = $request->post('end') ? (new DateTime($request->post('end')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
+        $device = $request->post('device') ?  $request->post('device') : 'RO1';
+
+        $pressurePerDay = null;
+        $date = $s1 = $s2 = $s3 = $s4 = $s5 = $s6 = $s7 = $s8 = $s9 = [];
+
+        $key = "pressurePerDay-$device-$start-$end";
+
+        $pressurePerDay = DataSensors::find()
+                                ->where(['remark'=>$device])
+                                ->andFilterWhere(['between', 'modified_at', $start, $end])
+                                ->orderBy(['modified_at'=> SORT_DESC])
+                                ->limit(100)
+                                ->all();
+
+        if ($pressurePerDay && count($pressurePerDay) > 0) {
+            foreach ($pressurePerDay as $a) {
+                $date[] = $a['modified_at'];
+                $s1[] = $a['s1'];
+                $s2[] = $a['s2'];
+                $s3[] = $a['s3'];
+                $s4[] = $a['s4'];
+                $s5[] = $a['s5'];
+                $s6[] = $a['s6'];
+                $s7[] = $a['s7'];
+                $s8[] = $a['s8'];
+                $s9[] = $a['s9'];
+            }
+        } else {
+            $date[] = $end;
+            $s1[] = 0;
+            $s2[] = 0;
+            $s3[] = 0;
+            $s4[] = 0;
+            $s5[] = 0;
+            $s6[] = 0;
+            $s7[] = 0;
+            $s8[] = 0;
+            $s9[] = 0;
         }
 
-        return $this->render('index', [
-            'enrolls' => $enrolls,
-            'student_enroll' => $student_enroll,
-            'progress' => $progress,
-        ]);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return [
+            'date' => $date,
+            's1' => $s1,
+            's2' => $s2,
+            's3' => $s3,
+            's4' => $s4,
+            's5' => $s5,
+            's6' => $s6,
+            's7' => $s7,
+            's8' => $s8,
+            's9' => $s9,
+            'start' => $start,
+            'end' => $end,
+            'device' => $device,
+        ];
     }
 
     public function actionUpdateProfile()

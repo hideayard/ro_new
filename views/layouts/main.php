@@ -24,6 +24,7 @@ $a = Yii::$app->controller->action->id;
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/images/kkm_50.png">
 
     <?php $this->registerCsrfMetaTags() ?>
 
@@ -142,7 +143,7 @@ $a = Yii::$app->controller->action->id;
                 <div class="row align-items-center">
                     <div class="col-lg-9 d-none d-lg-block">
                         <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a questions?</a>
-                        <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span> +60 13-702 4102</a>
+                        <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span> +60 19-282 1389</a>
                         <a href="#" class="small mr-3"><span class="icon-envelope-o mr-2"></span> info@rochat.id</a>
                     </div>
                     <div class="col-lg-3 text-right">
@@ -298,40 +299,7 @@ $a = Yii::$app->controller->action->id;
 
     <script src="<?= $baseUrl ?>/js/main.js"></script>
     <script>
-        /*Floating Code for Iframe Start*/
-        if (jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"],iframe[src*="https://player.vimeo.com/"]').length > 0) {
-            /*Wrap (all code inside div) all vedio code inside div*/
-            jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]').wrap("<div class='iframe-parent-class'></div>");
-            /*main code of each (particular) vedio*/
-            jQuery('iframe[src*="https://www.youtube.com/embed/"],iframe[src*="https://player.vimeo.com/"]').each(function(index) {
 
-                /*Floating js Start*/
-                var windows = jQuery(window);
-                var iframeWrap = jQuery(this).parent();
-                var iframe = jQuery(this);
-                var iframeHeight = iframe.outerHeight();
-                var iframeElement = iframe.get(0);
-                windows.on('scroll', function() {
-                    var windowScrollTop = windows.scrollTop();
-                    var iframeBottom = iframeHeight + iframeWrap.offset().top;
-                    //alert(iframeBottom);
-
-                    if ((windowScrollTop > iframeBottom)) {
-                        iframeWrap.height(iframeHeight);
-                        iframe.addClass('stuck');
-                        jQuery(".scrolldown").css({
-                            "display": "none"
-                        });
-                    } else {
-                        iframeWrap.height('auto');
-                        iframe.removeClass('stuck');
-                    }
-                });
-                /*Floating js End*/
-            });
-        }
-
-        /*Floating Code for Iframe End*/
     </script>
     <?php $this->endBody() ?>
 </body>

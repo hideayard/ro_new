@@ -24,19 +24,22 @@ $a = Yii::$app->controller->action->id;
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="<?= Yii::$app->request->csrfParam; ?>" id="_csrf" content="<?= Yii::$app->request->csrfToken; ?>">
+    <meta name="robots" content="noindex, nofollow">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/fontawesome-free-6.1.1-web/css/all.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- overlayScrollbars -->
     <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/adminlte.min.css">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/dashboard.css">
+
     <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System (PMRO)</title>
+    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/dist/img/kkm_50.png">
+
     <?php $this->head() ?>
 </head>
 
@@ -195,7 +198,7 @@ $a = Yii::$app->controller->action->id;
                             </li -->
 
                             <li class="nav-item">
-                                <a href="<?= Url::to(['log/index']) ?>" class="nav-link <?= ($c == "Log") ? "active" : "" ?>">
+                                <a href="<?= Url::to(['log/index']) ?>" class="nav-link <?= ($c == "log") ? "active" : "" ?>">
                                     <i class="nav-icon fa fa-chart-line"></i>
                                     <p>Data Logs</p>
                                 </a>
@@ -284,12 +287,15 @@ $a = Yii::$app->controller->action->id;
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
     <script src="<?= $baseUrl ?>/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
     <script src="<?= $baseUrl ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
+    <script src="<?= $baseUrl ?>/plugins/moment/moment.min.js"></script>
+    <script src="<?= $baseUrl ?>/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="<?= $baseUrl ?>/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="<?= $baseUrl ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>\
+    <script src="<?= $baseUrl ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
     <script src="<?= $baseUrl ?>/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
         function createElementFromHTML(htmlString) {

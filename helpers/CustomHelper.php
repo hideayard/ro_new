@@ -2,6 +2,8 @@
 
 namespace app\helpers;
 
+use DateTime;
+
 class CustomHelper
 {
 
@@ -92,6 +94,17 @@ class CustomHelper
         if (!hash_equals(hash_hmac('sha256', $ciphertext . $iv, $key, true), $hash)) return null;
     
         return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $iv);
+    }
+
+    public static function toISODate($str)
+    {
+
+        if (empty($str)) return $str;
+
+        date_default_timezone_set("Asia/Jakarta");
+
+        $orig_date = new DateTime($str);
+        return new DateTime($orig_date->getTimestamp() * 1000);
     }
     
 
