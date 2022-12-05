@@ -33,49 +33,39 @@ $this->registerJsFile(Url::base() . '/js/jquery.particleground.js', [
     </div>
 </div>
 
-<!-- <div id="particles">
-  <div id="webcoderskull">
-    <h1>PARTICLE BACKGROUND</h1>
-    <p>Web Coder Skull Team</p>
-    
-  </div>
-</div> -->
-
-
-
-<div class="site-section" id="particles">
+<div class="site-section" id="particles" >
     <div class="container text-center">
 
     <div class='card'>
-  <div class='overlay-content' >
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-        <img src="<?= $baseUrl ?>/images/kkm_120.png" alt="Image" class="img-fluid">
-            <?php
-            $form = ActiveForm::begin([
-                'id' => 'login-form',
-                'options' => ['class' => 'form-horizontal'],
-            ]) ?>
+            <div class='overlay-content' >
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                    <img src="<?= $baseUrl ?>/images/kkm_120.png" alt="Image" class="img-fluid">
+                        <?php
+                        $form = ActiveForm::begin([
+                            'id' => 'login-form',
+                            'options' => ['class' => 'form-horizontal'],
+                        ]) ?>
 
-            <div class="row">
-                <?= $form->field($model, 'user_name', ['options' => ['class' => 'col-md-12 form-group']])->textInput(['class' => 'form-control form-control-lg']) ?>
-                <?= $form->field($model, 'user_pass', ['options' => ['class' => 'col-md-12 form-group']])->passwordInput(['class' => 'form-control form-control-lg']) ?>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5">
+                        <div class="row">
+                            <?= $form->field($model, 'user_name', ['options' => ['class' => 'col-md-12 form-group']])->textInput(['class' => 'form-control form-control-lg']) ?>
+                            <?= $form->field($model, 'user_pass', ['options' => ['class' => 'col-md-12 form-group']])->passwordInput(['class' => 'form-control form-control-lg']) ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5">
+                            </div>
+                        </div>
+
+                        <?php ActiveForm::end() ?>
+
+                    </div>
                 </div>
             </div>
-
-            <?php ActiveForm::end() ?>
-
+            <div class='bg-wrapper'>
+                    
+            </div>
         </div>
-    </div>
-  </div>
-  <div class='bg-wrapper'>
-        
-  </div>
-</div>
         
     </div>
 </div>
@@ -91,6 +81,7 @@ $this->registerCss("
 
 .card{
     position:absolute;
+    top: 450px;
     bottom: 100px;
     left: 35%;
     width:30%;
@@ -98,6 +89,8 @@ $this->registerCss("
     overflow:hidden;
     border-radius:5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    z-index: 10;
+
   }
 
 
