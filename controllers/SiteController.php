@@ -2,32 +2,34 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\forms\LoginForm;
-use app\models\forms\ContactForm;
-use app\models\Banner;
-use app\models\Courses;
-use app\models\Enroll;
-use app\models\EnrollProgress;
-use app\models\CourseSection;
-use app\models\Soal;
-use app\models\Exam;
-use app\models\DoExam;
-use app\models\Discussion;
-use app\models\forms\RegisterForm;
 use PDO;
-use yii\data\Pagination;
-use yii\helpers\VarDumper;
-use yii\widgets\ActiveForm;
-use app\models\Users;
-use app\helpers\CustomHelper;
+use Yii;
 use Exception;
 use Throwable;
+use app\models\Exam;
+use app\models\Soal;
+use app\models\Users;
+use yii\helpers\Html;
+use yii\web\Response;
+use app\models\Banner;
+use app\models\DoExam;
+use app\models\Enroll;
+use app\models\Courses;
+use yii\web\Controller;
+use yii\data\Pagination;
+use app\models\Discussion;
+use yii\helpers\VarDumper;
 use yii\web\HttpException;
+use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
+use app\helpers\CustomHelper;
+use app\models\CourseSection;
+use app\models\EnrollProgress;
+use yii\filters\AccessControl;
+use app\helpers\TelegramHelper;
+use app\models\forms\LoginForm;
+use app\models\forms\ContactForm;
+use app\models\forms\RegisterForm;
 
 class SiteController extends Controller
 {
@@ -109,10 +111,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // return $this->goBack();
+            TelegramHelper::sendMessage([
+                'text' => "User Login : ".$model->user_name,
+                'parse_mode' => 'html'
+            ],  -820543545);
             return $this->redirect(['dashboard/index']);
 
         }
+
 
         $model->user_pass = '';
         return $this->render('login', [
