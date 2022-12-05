@@ -163,7 +163,7 @@ $a = Yii::$app->controller->action->id;
             <div class="container">
                 <div class="d-flex align-items-center">
                     <div class="site-logo">
-                        <a href="/" class="d-block">
+                        <a href="<?= Url::to(['site/index']) ?>" class="d-block">
                         <img src="<?= $baseUrl ?>/images/kkm_70.png" alt="Image" class="img-fluid">
                         </a>
                     </div>
@@ -171,20 +171,9 @@ $a = Yii::$app->controller->action->id;
                         <nav class="site-navigation position-relative text-right" role="navigation">
                             <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                                 <li <?php if ($c == 'site' && $a == 'index') : ?> class="active" <?php endif; ?>>
-                                    <a href="/" class="nav-link text-left">Home</a>
+                                    <a href="<?= Url::to(['site/index']) ?>" class="nav-link text-left">Home</a>
                                 </li>
 
-                                <!-- <li <?php if ($c == 'site' && $a == 'admissions') : ?> class="active" <?php endif; ?>>
-                                    <a href="<?= Url::to(['site/admissions']) ?>" class="nav-link text-left">Admissions</a>
-                                </li> -->
-
-                                <!-- <li class="has-children">
-                                    <a href="courses" class="nav-link text-left">Courses</a>
-                                    <ul class="dropdown">
-                                        <li><a href="<?= Url::to(['site/courses']) ?>">Free Courses</a></li>
-                                        <li><a href="<?= Url::to(['site/courses']) ?>">Paid Courses</a></li>
-                                    </ul>
-                                </li> -->
                                 <li <?php if ($c == 'site' && $a == 'about') : ?> class="active" <?php endif; ?>>
                                     <a href="<?= Url::to(['site/about']) ?>" class="nav-link text-left">About Us</a>
                                 </li>
