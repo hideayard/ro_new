@@ -87,13 +87,13 @@ class SiteController extends Controller
             ->orderBy('b_id DESC')->all();
 
 
-        $course_list = Yii::$app->db->createCommand("SELECT c.*, u.user_nama AS nama_trainer
-                    FROM courses c
-                    INNER JOIN users u ON c.course_trainer = u.user_id 
-                    where c.course_status = 1
-                    ORDER BY c.`course_id` DESC")->queryAll();
+        // $course_list = Yii::$app->db->createCommand("SELECT c.*, u.user_nama AS nama_trainer
+        //             FROM courses c
+        //             INNER JOIN users u ON c.course_trainer = u.user_id 
+        //             where c.course_status = 1
+        //             ORDER BY c.`course_id` DESC")->queryAll();
 
-        return $this->render('index', ['banner_list' => $banner_list, 'course_list' => $course_list]);
+        return $this->render('index', ['banner_list' => $banner_list]);
     }
 
     /**
