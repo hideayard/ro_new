@@ -5,7 +5,7 @@
 use yii\helpers\Url;
 
 $baseUrl = Url::base() . '/academic';
-$this->title = 'PMRO - Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System';
+$this->title = 'PMRO - Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System';
 
 ?>
 
@@ -89,7 +89,7 @@ $this->title = 'PMRO - Predictive Maintenance System of Haemodialysis Reverse Os
       </div>
       <div class="col-lg-8">
         <p class="lead">PMRO </p>
-        <p>Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System (PMRO).</p>
+        <p>Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO).</p>
         <p><a href="#">Read more</a></p>
       </div>
     </div>

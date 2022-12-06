@@ -35,7 +35,7 @@ if($maintenance1)
     </div>
 
     <div class="card-body">
-        <p>Welcome to Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System (PMRO) </p>
+        <p>Welcome to Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO) </p>
     </div>
 
 </div>

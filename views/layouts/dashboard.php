@@ -37,7 +37,7 @@ $a = Yii::$app->controller->action->id;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
     <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/dashboard.css">
 
-    <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System (PMRO)</title>
+    <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO)</title>
     <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/dist/img/kkm_50.png">
 
     <?php $this->head() ?>
