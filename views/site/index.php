@@ -5,7 +5,7 @@
 use yii\helpers\Url;
 
 $baseUrl = Url::base() . '/academic';
-$this->title = 'PMRO - Free Online Courses';
+$this->title = 'PMRO - Predictive Maintenance System of Haemodialysis Reverse Osomis Water Purificarion System';
 
 ?>
 
