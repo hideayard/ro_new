@@ -109,8 +109,8 @@ class DashboardController extends Controller
         ->where(['remark'=>$device])
         // ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
         ->andWhere(['DATE(`modified_at`)' => $dateInput])
-        ->orderBy(['modified_at' => SORT_DESC])
-        ->limit(50);
+        ->orderBy(['modified_at' => SORT_ASC]);
+        // ->limit(50);
 
         $pressurePerDay = $query->all();
 
