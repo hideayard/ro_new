@@ -100,20 +100,24 @@ class DashboardController extends Controller
         $device = $request->post('device') ?  $request->post('device') : 'RO1';
 
         $pressurePerDay = null;
-        $date = $s1 = $s2 = $s3 = $s4 = $s5 = $s6 = $s7 = $s8 = $s9 = [];
+        $date = $date2 = $s1 = $s2 = $s3 = $s4 = $s5 = $s6 = $s7 = $s8 = $s9 = [];
 
         $key = "pressurePerDay-$device-$start-$end";
 
-        $pressurePerDay = DataSensors::find()
-                                ->where(['remark'=>$device])
-                                ->andFilterWhere(['between', 'modified_at', $start, $end])
-                                ->orderBy(['modified_at'=> SORT_DESC])
-                                ->limit(100)
-                                ->all();
+        $query = DataSensors::find()
+        ->where(['remark'=>$device])
+        ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
+        ->orderBy(['id' => SORT_DESC])
+        ->limit(50);
+
+        $pressurePerDay = $query->all();
+
+        $raw =  $query->createCommand()->sql;
 
         if ($pressurePerDay && count($pressurePerDay) > 0) {
             foreach ($pressurePerDay as $a) {
                 $date[] = $a['modified_at'];
+                $date2[] = $a['created_at'];
                 $s1[] = $a['s1'];
                 $s2[] = $a['s2'];
                 $s3[] = $a['s3'];
@@ -126,6 +130,7 @@ class DashboardController extends Controller
             }
         } else {
             $date[] = $end;
+            $date2[] = $start;
             $s1[] = 0;
             $s2[] = 0;
             $s3[] = 0;
@@ -141,6 +146,7 @@ class DashboardController extends Controller
 
         return [
             'date' => $date,
+            // 'created_at' => $date2,
             's1' => $s1,
             's2' => $s2,
             's3' => $s3,
@@ -153,6 +159,8 @@ class DashboardController extends Controller
             'start' => $start,
             'end' => $end,
             'device' => $device,
+            // 'request' => $request->post(),
+            // 'raw' => $raw 
         ];
     }
 
