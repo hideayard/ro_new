@@ -113,6 +113,7 @@ class DashboardController extends Controller
         // ->limit(50);
 
         $pressurePerDay = $query->all();
+        $count = $query->count()??0;
 
         $raw =  $query->createCommand()->rawSql;
 
@@ -162,10 +163,8 @@ class DashboardController extends Controller
             // 'end' => $end,
             'device' => $device,
             'request' => $request->post(),
-            'raw' => $raw 
-            ,'flipped_date' => array_flip($date)
-            ,'flipped_s1' => array_flip($s1)
-
+            'raw' => $raw
+            ,'count' => $count 
         ];
     }
 
