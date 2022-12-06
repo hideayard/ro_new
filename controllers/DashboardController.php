@@ -5,12 +5,14 @@ namespace app\controllers;
 use Yii;
 use DateTime;
 use app\models\Node;
+use app\models\Notif;
 use app\models\Users;
 use yii\web\Response;
 use app\models\Enroll;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\web\HttpException;
+use app\models\DataSensors;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -18,7 +20,6 @@ use app\models\EnrollProgress;
 use yii\filters\AccessControl;
 use app\models\forms\LoginForm;
 use app\helpers\DashboardHelper;
-use app\models\DataSensors;
 use app\models\forms\ContactForm;
 use app\models\forms\RegisterForm;
 
@@ -331,6 +332,17 @@ $dataML = json_encode(array($dataTraining,$lastData,$results_pressure2["id"],$la
             'raw' => $raw
             ,'count' => $count 
         ];
+    }
+
+    public function actionCreateNotif()
+    {
+        $model = new Notif;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->notif_id]);
+        } else {
+            return true;
+        }
     }
 
     public function actionUpdateProfile()

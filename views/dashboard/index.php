@@ -1168,7 +1168,7 @@ if(document.getElementById('dayPrediction').value > 0)
 
   document.getElementById('estimationText').innerHTML = "<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>";
 
-  $.post('<?= Url::to(['/notif/create']) ?>', {
+  $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
       _csrf: $('#_csrf').attr('content'),
       notif_date: Date.now(),
       notif_processed: 'false',
@@ -1252,7 +1252,7 @@ function addDays(date, days) {
         let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the RO device.!';
         this.anomalyflag = false;
 
-        $.post('<?= Url::to(['/notif/create']) ?>', {
+        $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
       _csrf: $('#_csrf').attr('content'),
       notif_date: Date.now(),
       notif_processed: 'false',
