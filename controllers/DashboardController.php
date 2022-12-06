@@ -339,9 +339,9 @@ $dataML = json_encode(array($dataTraining,$lastData,$results_pressure2["id"],$la
         $model = new Notif;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->notif_id]);
+            return $model;
         } else {
-            return true;
+            return ($model->errors)[0];
         }
     }
 
