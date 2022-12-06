@@ -8,6 +8,7 @@ use Exception;
 use Throwable;
 use app\models\Exam;
 use app\models\Soal;
+use app\models\Notif;
 use app\models\Users;
 use yii\helpers\Html;
 use yii\web\Response;
@@ -29,6 +30,7 @@ use yii\filters\AccessControl;
 use app\helpers\TelegramHelper;
 use app\models\forms\LoginForm;
 use app\models\forms\ContactForm;
+use Codeception\Lib\Notification;
 use app\models\forms\RegisterForm;
 
 class SiteController extends Controller
@@ -126,6 +128,43 @@ class SiteController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Login action.
+     *
+     * @return Response|string
+     */
+    public function actionCheckNotif()
+    {
+        echo "-";
+        $notif = Notif::find()
+        // ->where(['=','notif_processed',false])
+        ->where(['!=','notif_text',''])
+        ->andWhere(['!=','notif_processed',1])
+        ->all();
+
+        if($notif) {
+            foreach($notif as $value) {
+
+                $newNotif = Notif::find()->where(['notif_id'=>$value->notif_id])->one();
+                $newNotif->notif_processed = "true";
+
+                if($newNotif->save()) {
+                    TelegramHelper::sendMessage([
+                        'text' => "<strong>Notification :</strong>\nFrom : ".$value->notif_from ."\nText : ".$value->notif_text,
+                        'parse_mode' => 'html']
+                        ,  -820543545);
+                } else {
+                    TelegramHelper::sendMessage([
+                        'text' => "<strong>ERROR :</strong> \nactionCheckNotif : ".current($newNotif->errors)[0],
+                        'parse_mode' => 'html']
+                        ,  -820543545);
+                }
+
+                
+            }
+        }
     }
 
     /**
