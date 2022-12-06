@@ -83,12 +83,14 @@ $this->registerCss("
     position:absolute;
     top: 450px;
     bottom: 100px;
-    left: 35%;
+    left: 50%;
+    right: 50%;
     width:450px;
     height:420px;
     overflow:hidden;
     border-radius:5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform:translate(-50%,0);
     z-index: 10;
 
   }
