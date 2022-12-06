@@ -107,7 +107,7 @@ class DashboardController extends Controller
         $query = DataSensors::find()
         ->where(['remark'=>$device])
         ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
-        ->orderBy(['id' => SORT_DESC])
+        ->orderBy(['modified_at' => SORT_DESC])
         ->limit(50);
 
         $pressurePerDay = $query->all();
@@ -146,7 +146,7 @@ class DashboardController extends Controller
 
         return [
             'date' => $date,
-            // 'created_at' => $date2,
+            'created_at' => $date2,
             's1' => $s1,
             's2' => $s2,
             's3' => $s3,
@@ -159,8 +159,8 @@ class DashboardController extends Controller
             'start' => $start,
             'end' => $end,
             'device' => $device,
-            // 'request' => $request->post(),
-            // 'raw' => $raw 
+            'request' => $request->post(),
+            'raw' => $raw 
         ];
     }
 
