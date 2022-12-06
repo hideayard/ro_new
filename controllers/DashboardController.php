@@ -336,12 +336,26 @@ $dataML = json_encode(array($dataTraining,$lastData,$results_pressure2["id"],$la
 
     public function actionCreateNotif()
     {
-        $model = new Notif;
+        $request = Yii::$app->request;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $model;
+        if ( $request->post() ) {
+            
+                $notif = new Notif();
+                $notif->notif_from = "SYSTEM";
+                $notif->notif_to = null;
+                $notif->notif_date =  (new DateTime())->format('Y-m-d H:i:s');
+                $notif->notif_processed = "false";
+                $notif->notif_title = $request->post('notif_title')??"";
+                $notif->notif_text = $request->post('notif_text')??"";
+
+                if(!$notif->save()) {
+                    return ($notif->errors)[0];
+                    // return ($notif->errors);
+                }
+
+                return true;
         } else {
-            return ($model->errors)[0];
+            return false;
         }
     }
 

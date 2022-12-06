@@ -35,7 +35,7 @@ class Notif extends \yii\db\ActiveRecord
             [['notif_processed'], 'string'],
             [['notif_from'], 'string', 'max' => 50],
             [['notif_title'], 'string', 'max' => 100],
-            [['notif_text'], 'string', 'max' => 200],
+            [['notif_text'], 'string', 'max' => 1000],
         ];
     }
 

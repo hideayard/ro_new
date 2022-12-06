@@ -360,7 +360,7 @@ if($maintenance1)
     </div>
 </div>
 
-<input type="hidden" id="anomaly" value="<?= json_encode( $Anomaly )?>"/>
+<input type="hidden" id="anomaly" value='<?= json_encode( $Anomaly )?>'/>
 <input type="hidden" id="trainingData"/>
 <input type="hidden" id="lastData"/>
 <input type="hidden" id="dayPrediction"/>
@@ -1164,25 +1164,23 @@ if(document.getElementById('dayPrediction').value > 0)
 {
   
   console.log(addDays(Date.now(),document.getElementById('dayPrediction').value));
-  let dateMaintenance = addDays(Date.now(),document.getElementById('dayPrediction').value);
+  let dateMaintenance = addDays(Date.now(),document.getElementById('dayPrediction').value).toISOString().slice(0, 10);
 
   document.getElementById('estimationText').innerHTML = "<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>";
 
-  $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
-      _csrf: $('#_csrf').attr('content'),
-      notif_date: Date.now(),
-      notif_processed: 'false',
-      notif_from:"SYSTEM",
-      notif_title:"ML Device Failure",
-      notif_text: "Machine Learning Info : \n<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>"
-    }, (data) => {
-                    Swal.fire({
-                    icon: 'success',
-                    html: '<h4>Notification will be sent ASAP.</h4>',
-                    timer:4000
-                  });
+    $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
+          _csrf: $('#_csrf').attr('content'),
+          notif_title:"ML Device Failure",
+          notif_text: "Machine Learning Info : \n<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>"
+        }, (data) => {
+                        Swal.fire({
+                        icon: 'success',
+                        html: '<h4>Notification will be sent ASAP.</h4>',
+                        timer:4000
+                      });
 
-    });
+        });
+        
 //   $.ajax({
 //         type: "POST",
 //         enctype: 'multipart/form-data',
@@ -1236,46 +1234,47 @@ function addDays(date, days) {
   //  //interval 60 sec to check 
   setInterval(function(){ 
      console.log("interval to show anomaly");
-     this.anomaly = JSON.parse(document.getElementById("anomaly").value);
+     if(document.getElementById("anomaly").value != "") {
 
-     console.log(this.anomaly);
-      if ( typeof this.anomaly === 'object' && !Array.isArray(this.anomaly) && this.anomaly !== null ) {
-        
-        console.log("anomaly detected");
-        let detailsensor = "";
-        for (const [key, value] of Object.entries(this.anomaly)) {
-        console.log(`${key}: ${value}`);
-        detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
+        this.anomaly = JSON.parse(document.getElementById("anomaly").value);
 
-      }
-        // let detailsensor = this.anomaly.forEach(getDetailSensor);
-        let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the RO device.!';
-        this.anomalyflag = false;
+        console.log(this.anomaly);
+        if ( typeof this.anomaly === 'object' && !Array.isArray(this.anomaly) && this.anomaly !== null ) {
+          
+          console.log("anomaly detected");
+          let detailsensor = "";
+          for (const [key, value] of Object.entries(this.anomaly)) {
+                console.log(`${key}: ${value}`);
+                detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
+          }
+          // let detailsensor = this.anomaly.forEach(getDetailSensor);
+          let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the RO device.!';
+          this.anomalyflag = false;
 
-        $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
-      _csrf: $('#_csrf').attr('content'),
-      notif_date: Date.now(),
-      notif_processed: 'false',
-      notif_from:"SYSTEM",
-      notif_title:"Data Anomaly Report",
-      notif_text: "Data Anomaly Report: \n"+infotext
-    }, (data) => {
-                    Swal.fire({
-                    icon: 'success',
-                    html: '<h4>Notification will be sent ASAP.</h4>',
-                    timer:4000
-                  });
+          //trial sent notif
+          let dateMaintenance = new Date().toISOString().slice(0, 10);
 
-    });
+          $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
+                _csrf: $('#_csrf').attr('content'),
+                notif_title:"Data Anomaly Report",
+                notif_text: "Data Anomaly Report: \n"+infotext
+              }, (data) => {
+                              Swal.fire({
+                              icon: 'success',
+                              html: '<h4>Notification will be sent ASAP.</h4>',
+                              timer:4000
+                            });
+              });
 
-        Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning!',
-                  text: infotext,
-                  timer: 5000
-                });
-                  document.getElementById("anomaly").value = "";
-      }
-     
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Warning!',
+                      text: infotext,
+                      timer: 5000
+                    });
+            document.getElementById("anomaly").value = "";
+        }
+     }
+
    }, 60000);
 </script>
