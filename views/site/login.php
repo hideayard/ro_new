@@ -84,7 +84,7 @@ $this->registerCss("
     top: 450px;
     bottom: 100px;
     left: 35%;
-    width:30%;
+    width:450px;
     height:420px;
     overflow:hidden;
     border-radius:5px;
