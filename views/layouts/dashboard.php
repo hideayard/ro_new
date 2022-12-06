@@ -38,7 +38,7 @@ $a = Yii::$app->controller->action->id;
     <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/dashboard.css">
 
     <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO)</title>
-    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/dist/img/kkm_50.png">
+    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/dist/img/kkm_logo_new_50.png">
 
     <?php $this->head() ?>
 </head>
@@ -116,16 +116,22 @@ $a = Yii::$app->controller->action->id;
                                     <i class="nav-icon fa fa-chart-line"></i>
                                     <p>Data Logs</p>
                                 </a>
-                            </li> 
+                        </li> 
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['node/index']) ?>" class="nav-link <?= ($c == "node") ? "active" : "" ?>">
+                                <i class="nav-icon far fa-hdd"></i>
+                                <p>Device</p>
+                            </a>
+                        </li> 
 
-                        <?php if (Yii::$app->user->identity->user_tipe == "ADMIN" || Yii::$app->user->identity->user_tipe == 'TRAINER') : ?>
+                        <?php if (Yii::$app->user->identity->user_tipe == "ADMIN" || Yii::$app->user->identity->user_tipe == 'SUPERADMIN') : ?>
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="<?= Url::to(['users/index']) ?>" class="nav-link <?= ($c == "users") ? "active" : "" ?>">
                                     <i class="nav-icon far fa-user"></i>
                                     <p>Users</p>
                                 </a>
-                            </li>
+                            </li> -->
                         <?php endif; ?>
 
                         <?php if (Yii::$app->user->identity->user_tipe == "ADMIN" || Yii::$app->user->identity->user_tipe == "SUPERADMIN") : ?>
@@ -137,24 +143,19 @@ $a = Yii::$app->controller->action->id;
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="<?= Url::to(['node/index']) ?>" class="nav-link <?= ($c == "node") ? "active" : "" ?>">
-                                    <i class="nav-icon far fa-hdd"></i>
-                                    <p>Node</p>
-                                </a>
-                            </li> 
+                            
                             <li class="nav-item">
                                 <a href="<?= Url::to(['notif/index']) ?>" class="nav-link <?= ($c == "notif") ? "active" : "" ?>">
                                     <i class="nav-icon far fa-bell"></i>
                                     <p>Notifications</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="<?= Url::to(['subscriber/index']) ?>" class="nav-link <?= ($c == "subscriber") ? "active" : "" ?>">
                                     <i class="nav-icon far fa-star"></i>
                                     <p>Subscribers</p>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li class="nav-item">
                                 <a href="<?= Url::to(['video/index']) ?>" class="nav-link <?= ($c == "video") ? "active" : "" ?>">
                                     <i class="nav-icon far fa-play-circle"></i>

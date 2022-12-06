@@ -24,7 +24,7 @@ $a = Yii::$app->controller->action->id;
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/images/kkm_50.png">
+    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/images/kkm_logo_new_70.png">
 
     <?php $this->registerCsrfMetaTags() ?>
 
@@ -164,7 +164,7 @@ $a = Yii::$app->controller->action->id;
                 <div class="d-flex align-items-center">
                     <div class="site-logo">
                         <a href="<?= Url::to(['site/index']) ?>" class="d-block">
-                        <img src="<?= $baseUrl ?>/images/kkm_70.png" alt="Image" class="img-fluid">
+                        <img src="<?= $baseUrl ?>/images/kkm_logo_new_120.png" alt="Image" class="img-fluid">
                         </a>
                     </div>
                     <div class="mr-auto">
@@ -217,7 +217,7 @@ $a = Yii::$app->controller->action->id;
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img src="<?= $baseUrl ?>/images/kkm_120.png" alt="Image" class="img-fluid">
+                        <img src="<?= $baseUrl ?>/images/kkm_logo_new_120.png" alt="Image" class="img-fluid">
                         </p>
 
                     </div>

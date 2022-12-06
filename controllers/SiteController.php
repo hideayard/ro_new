@@ -111,10 +111,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $clientIp = CustomHelper::get_client_ip()??'localhost';
+
             TelegramHelper::sendMessage([
-                'text' => "User Login : ".$model->user_name,
-                'parse_mode' => 'html'
-            ],  -820543545);
+                'text' => "User Login : ".$model->user_name ."\nFrom : ".$clientIp,
+                'parse_mode' => 'html']
+                ,  -820543545);
             return $this->redirect(['dashboard/index']);
 
         }

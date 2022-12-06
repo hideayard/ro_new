@@ -76,7 +76,7 @@ class DashboardController extends Controller
         $nodeId = Node::findOne(['node_id'=>1]);
         $nodes = ArrayHelper::map(Node::find()->all(), 'node_name', 'node_name');
 
-        $start = Yii::$app->request->post('start') ? (new DateTime(Yii::$app->request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d') . ' - 1 month'));
+        $start = Yii::$app->request->post('start') ? (new DateTime(Yii::$app->request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d'))); //. ' - 1 month'));
         $end = Yii::$app->request->post('end') ? (new DateTime(Yii::$app->request->post('end')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
         $maintenance1 = DataSensors::findOne(['remark'=>$nodeId["node_name"]]);
 
@@ -95,24 +95,26 @@ class DashboardController extends Controller
     {
 
         $request = Yii::$app->request;
-        $start = $request->post('start') ? (new DateTime($request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d') . ' - 1 month'));
-        $end = $request->post('end') ? (new DateTime($request->post('end')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
+        // $start = $request->post('start') ? (new DateTime($request->post('start')))->format('Y-m-d') : date('Y-m-d', strtotime((new DateTime())->format('Y-m-d') . ' - 1 month'));
+        // $end = $request->post('end') ? (new DateTime($request->post('end')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
+        $dateInput = $request->post('start') ? (new DateTime($request->post('start')))->format('Y-m-d') : (new DateTime())->format('Y-m-d');
         $device = $request->post('device') ?  $request->post('device') : 'RO1';
 
         $pressurePerDay = null;
         $date = $date2 = $s1 = $s2 = $s3 = $s4 = $s5 = $s6 = $s7 = $s8 = $s9 = [];
 
-        $key = "pressurePerDay-$device-$start-$end";
+        // $key = "pressurePerDay-$device-$dateInput";
 
         $query = DataSensors::find()
         ->where(['remark'=>$device])
-        ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
+        // ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
+        ->andWhere(['DATE(`modified_at`)' => $dateInput])
         ->orderBy(['modified_at' => SORT_DESC])
         ->limit(50);
 
         $pressurePerDay = $query->all();
 
-        $raw =  $query->createCommand()->sql;
+        $raw =  $query->createCommand()->rawSql;
 
         if ($pressurePerDay && count($pressurePerDay) > 0) {
             foreach ($pressurePerDay as $a) {
@@ -129,8 +131,8 @@ class DashboardController extends Controller
                 $s9[] = $a['s9'];
             }
         } else {
-            $date[] = $end;
-            $date2[] = $start;
+            $date[] = $dateInput;
+            $date2[] = $dateInput;
             $s1[] = 0;
             $s2[] = 0;
             $s3[] = 0;
@@ -156,8 +158,8 @@ class DashboardController extends Controller
             's7' => $s7,
             's8' => $s8,
             's9' => $s9,
-            'start' => $start,
-            'end' => $end,
+            'start' => $dateInput,
+            // 'end' => $end,
             'device' => $device,
             'request' => $request->post(),
             'raw' => $raw 

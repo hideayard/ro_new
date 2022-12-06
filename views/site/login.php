@@ -40,7 +40,7 @@ $this->registerJsFile(Url::base() . '/js/jquery.particleground.js', [
             <div class='overlay-content' >
                 <div class="row justify-content-center">
                     <div class="col-md-5">
-                    <img src="<?= $baseUrl ?>/images/kkm_120.png" alt="Image" class="img-fluid">
+                    <img src="<?= $baseUrl ?>/images/kkm_logo_new_250.png" alt="Image" class="img-fluid">
                         <?php
                         $form = ActiveForm::begin([
                             'id' => 'login-form',
@@ -49,6 +49,8 @@ $this->registerJsFile(Url::base() . '/js/jquery.particleground.js', [
 
                         <div class="row">
                             <?= $form->field($model, 'user_name', ['options' => ['class' => 'col-md-12 form-group']])->textInput(['class' => 'form-control form-control-lg']) ?>
+                        </div>
+                        <div class="row">    
                             <?= $form->field($model, 'user_pass', ['options' => ['class' => 'col-md-12 form-group']])->passwordInput(['class' => 'form-control form-control-lg']) ?>
                         </div>
                         <div class="row">

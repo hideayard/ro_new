@@ -107,5 +107,50 @@ class CustomHelper
         return new DateTime($orig_date->getTimestamp() * 1000);
     }
     
+    // Function to get the client IP address
+    public static function get_client_ip() {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+
+    public static function get_IP_address()
+    {
+        foreach (array('HTTP_CLIENT_IP',
+                    'HTTP_X_FORWARDED_FOR',
+                    'HTTP_X_FORWARDED',
+                    'HTTP_X_CLUSTER_CLIENT_IP',
+                    'HTTP_FORWARDED_FOR',
+                    'HTTP_FORWARDED',
+                    'REMOTE_ADDR') as $key){
+            if (array_key_exists($key, $_SERVER) === true){
+                foreach (explode(',', $_SERVER[$key]) as $IPaddress){
+                    $IPaddress = trim($IPaddress); // Just to be safe
+
+                    if (filter_var($IPaddress,
+                                FILTER_VALIDATE_IP,
+                                FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)
+                        !== false) {
+
+                        return $IPaddress;
+                    }
+                }
+            }
+        }
+    }
+
 
 }

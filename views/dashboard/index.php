@@ -64,46 +64,56 @@ if($maintenance1)
                 </select>            
             </div>
 
-            <div class="col-4">
-                <div class="mb-1">Periode data</div>
+            <div class="col-6">
+                <div class="mb-1">Select Date : </div>
                 <div class="row">
-                    <div class="col-6">
-                    <div class="form-group">
-                        <div class="input-group date" id="start" data-target-input="nearest">
-                        <input type="text" name="start" id="input_start" class="form-control datetimepicker-input" data-target="#start" />
-                        <div class="input-group-append" data-target="#start" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
-                        </div>
+                    <div class="col-4">
+                      <div class="form-group">
+                          <div class="input-group date" id="start" data-target-input="nearest">
+                          <input type="text" name="start" id="input_start" class="form-control datetimepicker-input" data-target="#start" />
+                          <div class="input-group-append" data-target="#start" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                          </div>
+                      </div>
                     </div>
+                    <div class="col-4">
+                      <div class="form-group">
+                          <button type="button" onclick="applyFilter()" class="ml-1 btn btn-primary form-control">Filter</button>
+                      </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
+                      <div class="form-group">
+                          <button type="reset" onclick="resetFilter()" class="ml-1 btn btn-secondary form-control align-bottom">Reset</button>
+                      </div>
+                    </div>
+                    <!-- <div class="col-6">
                     <div class="input-group date" id="end" data-target-input="nearest">
                         <input type="text" name="end" name="input_end" class="form-control datetimepicker-input" data-target="#end" />
                         <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                     </div>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
 
-            <div class="col-4">
+            <!-- <div class="col-4">
                 <div class="mb-1">&nbsp;</div>
                 <div class="row">
                     <div class="col-6">
-                    <div class="form-group">
-                        <button type="button" onclick="applyFilter()" class="ml-1 btn btn-primary form-control">Filter</button>
-                    </div>
+                      <div class="form-group">
+                          <button type="button" onclick="applyFilter()" class="ml-1 btn btn-primary form-control">Filter</button>
+                      </div>
                     </div>
                     <div class="col-6">
-                    <div class="form-group">
-                        <button type="reset" onclick="resetFilter()" class="ml-1 btn btn-secondary form-control align-bottom">Reset</button>
-                    </div>
+                      <div class="form-group">
+                          <button type="reset" onclick="resetFilter()" class="ml-1 btn btn-secondary form-control align-bottom">Reset</button>
+                      </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -419,7 +429,7 @@ if($maintenance1)
   window.resetFilter = async () => {
 
     $('#start').datepicker({ dateFormat: 'YYYY-MM-DD'}).datepicker("setDate", start);
-    $('#end').datepicker({ dateFormat: 'YYYY-MM-DD'}).datepicker("setDate", end);
+    // $('#end').datepicker({ dateFormat: 'YYYY-MM-DD'}).datepicker("setDate", end);
 
     dataPressure();
   };
@@ -432,11 +442,11 @@ if($maintenance1)
       disabledHours: [0, 1, 2, 3, 4, 5, 6, 20, 21, 22, 23, 24]
     });
 
-    $('#end').datetimepicker({
-      format: 'YYYY-MM-DD',
-      defaultDate: end,
-      disabledHours: [0, 1, 2, 3, 4, 5, 6, 20, 21, 22, 23, 24]
-    });
+    // $('#end').datetimepicker({
+    //   format: 'YYYY-MM-DD',
+    //   defaultDate: end,
+    //   disabledHours: [0, 1, 2, 3, 4, 5, 6, 20, 21, 22, 23, 24]
+    // });
 
     applyFilter();
   });
@@ -450,12 +460,14 @@ if($maintenance1)
     $.post('<?= Url::to(['/dashboard/data-pressure']) ?>', {
       _csrf: $('#_csrf').attr('content'),
       device: document.getElementById("node_name").value,
-      start: $('input[name="start"]').val(),
-      end: $('input[name="end"]').val()
+      start: $('input[name="start"]').val()
+      // ,end: $('input[name="end"]').val()
     }, (data) => {
       const options = {
         chart: {
-          type: 'line'
+          type: 'line',
+          height: '400px'
+
         },
         series: [{
           name: 'Sensor 1 (Psi)',
@@ -497,6 +509,7 @@ if($maintenance1)
       const optionsCon = {
         chart: {
           type: 'line'
+          ,height: '400px'
         },
         series: [{
           name: 'Sensor 1 (mS/cm)',
@@ -526,6 +539,7 @@ if($maintenance1)
        const optionsFlow = {
         chart: {
           type: 'line'
+          ,height: '400px'
         },
         series: [{
           name: 'Sensor 1 (L/min)',
@@ -747,6 +761,10 @@ var gauge_options = {
         $('#gauge-flow-chart-wrapper').show();
         var chart = new ApexCharts(document.querySelector("#gauge-flow-chart"), gauge_flow_options);
         chart.render();
+
+        window.dispatchEvent(new Event('resize'));
+
+
     });
 
   };
