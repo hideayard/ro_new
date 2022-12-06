@@ -88,9 +88,9 @@ $this->title = 'PMRO - Predictive Maintenance System of Hemodialysis Reverse Osm
         </h2>
       </div>
       <div class="col-lg-8">
-        <p class="lead">PMRO </p>
-        <p>Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO).</p>
-        <p><a href="#">Read more</a></p>
+        <p class="lead text-white">PMRO </p>
+        <p class="text-white">Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO).</p>
+        <p class="text-white"><a class="text-primary" href="#">Read more</a></p>
       </div>
     </div>
   </div>
