@@ -36,6 +36,9 @@ $a = Yii::$app->controller->action->id;
     <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
     <link rel="stylesheet" href="<?= $baseUrl ?>/dist/css/dashboard.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/plugins/sweetalert2/sweetalert2.min.css">
+
+    <script src="<?= $baseUrl ?>/dist/js/ml.js"></script>
 
     <title><?= Html::encode($this->title) ?> | Predictive Maintenance System of Hemodialysis Reverse Osmosis Water Purification System (PMRO)</title>
     <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/dist/img/kkm_logo_new_50.png">
@@ -222,6 +225,8 @@ $a = Yii::$app->controller->action->id;
     <!-- ./wrapper -->
 
     <script src="<?= $baseUrl ?>/plugins/jquery/jquery.min.js"></script>
+    <!-- <script src="<?= $baseUrl ?>/js/plugins.js"></script> -->
+
     <script src="<?= $baseUrl ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= $baseUrl ?>/plugins/moment/moment.min.js"></script>
     <script src="<?= $baseUrl ?>/plugins/inputmask/jquery.inputmask.min.js"></script>
@@ -229,6 +234,7 @@ $a = Yii::$app->controller->action->id;
     <script src="<?= $baseUrl ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>\
     <script src="<?= $baseUrl ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
     <script src="<?= $baseUrl ?>/dist/js/adminlte.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
@@ -255,6 +261,7 @@ $a = Yii::$app->controller->action->id;
                     $(this).closest('.delete-form').find('form').submit();
                 }
             });
+
         });
     </script>
 

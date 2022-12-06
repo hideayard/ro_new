@@ -1,5 +1,6 @@
 <?php
 
+use yii\web\View;
 use yii\helpers\Url;
 use kartik\helpers\Html;
 
@@ -341,7 +342,7 @@ if($maintenance1)
 
                     <div id="ml-wrapper" style="display:none">
                         <div id="countdown1"></div><br>
-                        <p><h4 style="text-align: center;"><strong>Estimation for Device Failure = <?=$nextMaintenance.$countdowndata?></strong></h4></p>
+                        <p><h4 style="text-align: center;" id="estimationText"><strong>Estimation for Device Failure = <?=$nextMaintenance.$countdowndata?></strong></h4></p>
                     </div>
 
                     <div id="ml-loader">
@@ -359,6 +360,10 @@ if($maintenance1)
     </div>
 </div>
 
+<input type="hidden" id="anomaly" value="<?= json_encode( $Anomaly )?>"/>
+<input type="hidden" id="trainingData"/>
+<input type="hidden" id="lastData"/>
+<input type="hidden" id="dayPrediction"/>
 
 <script>
   'use strict';
@@ -449,6 +454,30 @@ if($maintenance1)
     // });
 
     applyFilter();
+
+    let timerInterval
+      Swal.fire({
+      title: 'Processing Machine Learning',
+      html: 'Please wait while AI is still processing.',
+      timer: 10000,
+      timerProgressBar: true,
+      didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft()
+          }, 100)
+      },
+      willClose: () => {
+          clearInterval(timerInterval)
+      }
+      }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('I was closed by the timer')
+      }
+    });
+      
   });
 
 
@@ -979,4 +1008,274 @@ var gauge_options = {
 //     });
 
 //   };
+
+
+
+// let timerInterval;
+// Swal.fire({
+//   title: 'Auto close alert!',
+//   html: 'I will close in <b></b> milliseconds.',
+//   timer: 2000,
+//   timerProgressBar: true,
+//   didOpen: () => {
+//     Swal.showLoading()
+//     const b = Swal.getHtmlContainer().querySelector('b')
+//     timerInterval = setInterval(() => {
+//       b.textContent = Swal.getTimerLeft()
+//     }, 100)
+//   },
+//   willClose: () => {
+//     clearInterval(timerInterval)
+//   }
+// }).then((result) => {
+//   /* Read more about handling dismissals below */
+//   if (result.dismiss === Swal.DismissReason.timer) {
+//     console.log('I was closed by the timer')
+//   }
+// });
+
+const myTimeout = setTimeout(getDataML, 5000);
+
+function getDataML() {
+  console.log("dataML=",<?=$dataML?>);
+  var parsed_data = (<?=$dataML?>);
+  console.log("parsed_data=",parsed_data);
+
+  // console.log(JSON.parse(<?=$dataML?>));
+  // parsed_data = JSON.parse(<?=$dataML?>);
+
+  document.getElementById('trainingData').value = JSON.stringify( parsed_data[0]) ;
+  document.getElementById('lastData').value =JSON.stringify( parsed_data[1]) ;
+
+  if(parsed_data[2])
+  {
+    TrainingML(parsed_data[0],parsed_data[3],parsed_data[2]);
+  }
+  else
+  {
+    TrainingML(parsed_data[0],parsed_data[1],parsed_data[2]);
+  }
+}
+
+
+function TrainingML(trainingData,lastData,idData)
+{
+
+/////trial ML
+  const net = new brain.recurrent.LSTMTimeStep({
+              inputSize: 9,
+              hiddenLayers: [10],
+              outputSize: 9,
+              learningRate: 0.01,
+              decayRate: 0.0099,
+              });
+
+  net.train(trainingData, { log: true, errorThresh: 0.09 });
+
+  // now we're cookin' with gas!
+  const forecast = net.forecast(
+      [ lastData ],
+      1
+  );
+
+  console.log('next n predictions', forecast);
+  console.log("this.trainingData=", JSON.parse( document.getElementById('trainingData').value) );
+  console.log("this.lastData=",JSON.parse( document.getElementById('lastData').value) );
+
+  var forecastN = forecast;
+  var i=0,n=0,z=0,x=0;
+  var degradationValueTotal = 0;
+  var degradationValue = 0.0001;
+  var failureTimes = [];
+  for (i; i < forecast[0].length; i++) 
+  {   
+    var n=0;
+    while((forecastN[0][i]>=3 && forecastN[0][i]<=10))
+    {
+      if(forecastN[0][i] < 6.25)
+      { //jika data trend keatas maka di tambahkan degradation
+        forecastN[0][i] -= degradationValue;
+      }
+      else
+      {
+        forecastN[0][i] += degradationValue;
+      }
+      
+      if(forecastN[0][i]<3 || forecastN[0][i]>10)
+      {
+        console.log("detected",forecastN[0][i],"in",n); 
+        failureTimes[i] = n;
+        z+=n;
+      }
+      if(++n>100000)break;
+    }
+    console.log("forecastN=",forecastN,"i=",i);
+  }
+  x = z/8;
+  console.log("failureTimes=",failureTimes,"z=",z," rata2=",x);
+  document.getElementById('dayPrediction').value = parseInt( (x*5)/60/24 );
+  console.log(document.getElementById('dayPrediction').value);
+  
+  // var dataPredict = new FormData();
+  // dataPredict.append("predict", forecast);
+  // dataPredict.append("id", idData);
+
+// if(idData)
+// {
+//   $.ajax({
+//         type: "POST",
+//         enctype: 'multipart/form-data',
+//         url: "actionSavePredict.php",
+//         data: dataPredict,
+//         processData: false,
+//         contentType: false,
+//         cache: false,
+//         timeout: 600000,
+//         success: function (data) {
+//       var rv;
+//       try {
+//         rv = JSON.parse(data);
+//         console.log(rv.status,rv.info,rv);
+
+//       } catch (e) {
+//         //error data not json
+//         Swal.fire(
+//                 'error actionSavePredict!',
+//                 'Error Input Data, '+data,
+//                 'error'
+//                 );
+            
+//             console.log("ERROR : ", data);
+//       } 
+
+//     },
+//     error: function (e) {
+
+//         console.log("ERROR : ", e);
+
+//     }
+//     }); //end of ajax
+// }
+
+// var dataPredict = new FormData();
+//   dataPredict.append("predict", document.getElementById('dayPrediction').value);
+
+if(document.getElementById('dayPrediction').value > 0)
+{
+  
+  console.log(addDays(Date.now(),document.getElementById('dayPrediction').value));
+  let dateMaintenance = addDays(Date.now(),document.getElementById('dayPrediction').value);
+
+  document.getElementById('estimationText').innerHTML = "<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>";
+
+  $.post('<?= Url::to(['/notif/create']) ?>', {
+      _csrf: $('#_csrf').attr('content'),
+      notif_date: Date.now(),
+      notif_processed: 'false',
+      notif_from:"SYSTEM",
+      notif_title:"ML Device Failure",
+      notif_text: "Machine Learning Info : \n<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>"
+    }, (data) => {
+                    Swal.fire({
+                    icon: 'success',
+                    html: '<h4>Notification will be sent ASAP.</h4>',
+                    timer:4000
+                  });
+
+    });
+//   $.ajax({
+//         type: "POST",
+//         enctype: 'multipart/form-data',
+//         url: "actionPredict.php",
+//         data: dataPredict,
+//         processData: false,
+//         contentType: false,
+//         cache: false,
+//         timeout: 600000,
+//         success: function (data) {
+//       var rv;
+//       try {
+//         rv = JSON.parse(data);
+//         console.log(rv.status,rv.info,rv);
+
+//       } catch (e) {
+//         //error data not json
+//         Swal.fire(
+//                 'error!',
+//                 'Error Input Data, '+data,
+//                 'error'
+//                 );
+            
+//             console.log("ERROR : ", data);
+//       } 
+
+//     },
+//     error: function (e) {
+
+//         console.log("ERROR : ", e);
+
+//     }
+//     }); //end of ajax
+}
+
+Swal.fire({
+    icon: 'success',
+    html: '<h4>Prediction Success!</h4>',
+    timer:4000
+  });
+///end trial ML
+
+}
+
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+  //  //interval 60 sec to check 
+  setInterval(function(){ 
+     console.log("interval to show anomaly");
+     this.anomaly = JSON.parse(document.getElementById("anomaly").value);
+
+     console.log(this.anomaly);
+      if ( typeof this.anomaly === 'object' && !Array.isArray(this.anomaly) && this.anomaly !== null ) {
+        
+        console.log("anomaly detected");
+        let detailsensor = "";
+        for (const [key, value] of Object.entries(this.anomaly)) {
+        console.log(`${key}: ${value}`);
+        detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
+
+      }
+        // let detailsensor = this.anomaly.forEach(getDetailSensor);
+        let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the RO device.!';
+        this.anomalyflag = false;
+
+        $.post('<?= Url::to(['/notif/create']) ?>', {
+      _csrf: $('#_csrf').attr('content'),
+      notif_date: Date.now(),
+      notif_processed: 'false',
+      notif_from:"SYSTEM",
+      notif_title:"Data Anomaly Report",
+      notif_text: "Data Anomaly Report: \n"+infotext
+    }, (data) => {
+                    Swal.fire({
+                    icon: 'success',
+                    html: '<h4>Notification will be sent ASAP.</h4>',
+                    timer:4000
+                  });
+
+    });
+
+        Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning!',
+                  text: infotext,
+                  timer: 5000
+                });
+                  document.getElementById("anomaly").value = "";
+      }
+     
+   }, 60000);
 </script>
