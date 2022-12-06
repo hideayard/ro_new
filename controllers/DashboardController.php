@@ -109,7 +109,7 @@ class DashboardController extends Controller
         ->where(['remark'=>$device])
         // ->andWhere(['between', 'DATE(`modified_at`)', $start, $end])
         ->andWhere(['DATE(`modified_at`)' => $dateInput])
-        ->orderBy(['modified_at' => SORT_ASC]);
+        ->orderBy(['modified_at' => SORT_DESC]);
         // ->limit(50);
 
         $pressurePerDay = $query->all();
@@ -163,6 +163,9 @@ class DashboardController extends Controller
             'device' => $device,
             'request' => $request->post(),
             'raw' => $raw 
+            ,'flipped_date' => array_flip($date)
+            ,'flipped_s1' => array_flip($s1)
+
         ];
     }
 
