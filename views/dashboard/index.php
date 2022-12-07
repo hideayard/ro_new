@@ -1248,31 +1248,35 @@ function addDays(date, days) {
                 detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
           }
           // let detailsensor = this.anomaly.forEach(getDetailSensor);
-          let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the '+document.getElementById("node_name").value+' device.!';
-          this.anomalyflag = false;
+          if(detailsensor != "")
+          {
+              let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the '+document.getElementById("node_name").value+' device.!';
+              this.anomalyflag = false;
 
-          //trial sent notif
-          let dateMaintenance = new Date().toISOString().slice(0, 10);
+              //trial sent notif
+              let dateMaintenance = new Date().toISOString().slice(0, 10);
 
-          $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
-                _csrf: $('#_csrf').attr('content'),
-                notif_title:"Data Anomaly Report",
-                notif_text: "Data Anomaly Report: \nDevice : "+document.getElementById("node_name").value +"\n"+ +infotext
-              }, (data) => {
-                              Swal.fire({
-                              icon: 'success',
-                              html: '<h4>Notification will be sent ASAP.</h4>',
-                              timer:4000
-                            });
-              });
+              $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
+                    _csrf: $('#_csrf').attr('content'),
+                    notif_title:"Data Anomaly Report",
+                    notif_text: "Data Anomaly Report: \nDevice : "+document.getElementById("node_name").value +"\n"+ +infotext
+                  }, (data) => {
+                                  Swal.fire({
+                                  icon: 'success',
+                                  html: '<h4>Notification will be sent ASAP.</h4>',
+                                  timer:4000
+                                });
+                  });
 
-            Swal.fire({
-                      icon: 'warning',
-                      title: 'Warning!',
-                      text: infotext,
-                      timer: 5000
-                    });
-            document.getElementById("anomaly").value = "";
+                Swal.fire({
+                          icon: 'warning',
+                          title: 'Warning!',
+                          text: infotext,
+                          timer: 5000
+                        });
+                document.getElementById("anomaly").value = "";
+          }
+          
         }
      }
 
