@@ -1263,7 +1263,7 @@ function addDays(date, days) {
               $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
                     _csrf: $('#_csrf').attr('content'),
                     notif_title:"Data Anomaly Report",
-                    notif_text: "Data Anomaly Report: \nDevice : "+document.getElementById("node_name").value +"\n"+ +infotext
+                    notif_text: "Data Anomaly Report: \nDevice : "+document.getElementById("node_name").value +'\nSystem has detected anomaly data. \n '+detailsensor+' \n Please check the '+document.getElementById("node_name").value+' device.!'
                   }, (data) => {
                                   Swal.fire({
                                   icon: 'success',
