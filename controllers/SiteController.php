@@ -152,7 +152,7 @@ class SiteController extends Controller
 
                 if($newNotif->save()) {
                     TelegramHelper::sendMessage([
-                        'text' => "<strong>Notification :</strong>\nFrom : ".$value->notif_from ."\nText : ".$value->notif_text,
+                        'text' => "<strong>Notification :</strong>\nFrom : ".$value->notif_from ."\n".$value->notif_text,
                         'parse_mode' => 'html']
                         ,  -820543545);
                 } else {

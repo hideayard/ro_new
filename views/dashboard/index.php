@@ -1171,7 +1171,7 @@ if(document.getElementById('dayPrediction').value > 0)
     $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
           _csrf: $('#_csrf').attr('content'),
           notif_title:"ML Device Failure",
-          notif_text: "Machine Learning Info : \n<strong>Estimation for Device Failure = "+dateMaintenance+" </strong>"
+          notif_text: "Machine Learning Info : \n<strong>Estimation for Device Failure for "+document.getElementById("node_name").value+" = "+dateMaintenance+" </strong>"
         }, (data) => {
                         Swal.fire({
                         icon: 'success',
@@ -1248,7 +1248,7 @@ function addDays(date, days) {
                 detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
           }
           // let detailsensor = this.anomaly.forEach(getDetailSensor);
-          let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the RO device.!';
+          let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the '+document.getElementById("node_name").value+' device.!';
           this.anomalyflag = false;
 
           //trial sent notif
@@ -1257,7 +1257,7 @@ function addDays(date, days) {
           $.post('<?= Url::to(['/dashboard/create-notif']) ?>', {
                 _csrf: $('#_csrf').attr('content'),
                 notif_title:"Data Anomaly Report",
-                notif_text: "Data Anomaly Report: \n"+infotext
+                notif_text: "Data Anomaly Report: \nDevice : "+document.getElementById("node_name").value +"\n"+ +infotext
               }, (data) => {
                               Swal.fire({
                               icon: 'success',
