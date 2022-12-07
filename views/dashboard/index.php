@@ -1243,12 +1243,16 @@ function addDays(date, days) {
           
           console.log("anomaly detected");
           let detailsensor = "";
+          let anomalyFlag = false;
           for (const [key, value] of Object.entries(this.anomaly)) {
                 console.log(`${key}: ${value}`);
-                detailsensor = detailsensor+"<h5 style='color: red;'>"+key+" = "+value+"</h5>";
+                detailsensor += "<h5 style='color: red;'>"+key+" = "+value+"</h5>";
+                if(key) {
+                  anomalyFlag = true;
+                }
           }
           // let detailsensor = this.anomaly.forEach(getDetailSensor);
-          if(detailsensor != "")
+          if(anomalyFlag)
           {
               let infotext = 'System has detected anomaly data. <hr> '+detailsensor+' <hr> Please check the '+document.getElementById("node_name").value+' device.!';
               this.anomalyflag = false;
